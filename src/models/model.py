@@ -22,8 +22,8 @@ class Informer(nn.Module):
         self.output_attention = output_attention
 
         # Encoding
-        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
-        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout, max_len=6000)
+        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=6000)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -95,8 +95,8 @@ class Yformer_skipless(nn.Module):
 
         # Encoding
         # TODO: change the embedding so that there is a simple shared embedding for timestamp 
-        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
-        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout, max_len=6000)
+        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=6000)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -225,8 +225,8 @@ class Yformer(nn.Module):
 
         # Encoding
         # TODO: change the embedding so that there is a simple shared embedding for timestamp 
-        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
-        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout, max_len=6000)
+        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=6000)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -336,8 +336,8 @@ class InformerStack(nn.Module):
         self.output_attention = output_attention
 
         # Encoding
-        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
-        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout, max_len=6000)
+        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=6000)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
