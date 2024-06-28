@@ -7,7 +7,7 @@ from termcolor import cprint
 from utils_numpy_filter import NUMPYIEKF
 from utils import prepare_data
 
-from exp.exp_informer import Exp_Informer
+# from exp.exp_informer import Exp_Informer
 from models.model import Informer, Yformer, Yformer_skipless
 
 class InitProcessCovNet(torch.nn.Module):
