@@ -22,8 +22,8 @@ class Informer(nn.Module):
         self.output_attention = output_attention
 
         # Encoding
-        self.enc_embedding = DataEmbedding(enc_in, d_model, embed, freq, dropout)
-        self.dec_embedding = DataEmbedding(dec_in, d_model, embed, freq, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
+        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -66,11 +66,12 @@ class Informer(nn.Module):
         # self.end_conv2 = nn.Conv1d(in_channels=d_model, out_channels=c_out, kernel_size=1, bias=True)
         self.projection = nn.Linear(d_model, c_out, bias=True)
         
-    def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, 
+    # def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, 
+    def forward(self, x_enc, x_dec,
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out = self.enc_embedding(x_enc)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
-        dec_out = self.dec_embedding(x_dec, x_mark_dec)
+        dec_out = self.dec_embedding(x_dec)
         dec_out = self.decoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask)
         dec_out = self.projection(dec_out)
         # dec_out = self.end_conv1(dec_out)
@@ -94,8 +95,8 @@ class Yformer_skipless(nn.Module):
 
         # Encoding
         # TODO: change the embedding so that there is a simple shared embedding for timestamp 
-        self.enc_embedding = DataEmbedding(enc_in, d_model, embed, freq, dropout)
-        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, embed, freq, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
+        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -167,17 +168,17 @@ class Yformer_skipless(nn.Module):
         self.pred_len_projection = nn.Linear(d_model, c_out, bias=True) # (bs, 336, 512) -> (bs, 336 + 336, 7) 
 
         
-    def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, 
+    def forward(self, x_enc, x_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
 
         # Encoder
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out = self.enc_embedding(x_enc)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
         x_list.reverse()
         # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
 
         # Future Encoder
-        fut_enc_out = self.fut_enc_embedding(x_dec, x_mark_dec)
+        fut_enc_out = self.fut_enc_embedding(x_dec)
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
         fut_x_list.reverse()
 
@@ -224,8 +225,8 @@ class Yformer(nn.Module):
 
         # Encoding
         # TODO: change the embedding so that there is a simple shared embedding for timestamp 
-        self.enc_embedding = DataEmbedding(enc_in, d_model, embed, freq, dropout)
-        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, embed, freq, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
+        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -297,17 +298,17 @@ class Yformer(nn.Module):
         self.pred_len_projection = nn.Linear(d_model, c_out, bias=True) # (bs, 336, 512) -> (bs, 336 + 336, 7) 
 
         
-    def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, 
+    def forward(self, x_enc, x_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
 
         # Encoder
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out = self.enc_embedding(x_enc)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
         x_list.reverse()
         # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
 
         # Future Encoder
-        fut_enc_out = self.fut_enc_embedding(x_dec, x_mark_dec)
+        fut_enc_out = self.fut_enc_embedding(x_dec)
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
         fut_x_list.reverse()
 
@@ -335,8 +336,8 @@ class InformerStack(nn.Module):
         self.output_attention = output_attention
 
         # Encoding
-        self.enc_embedding = DataEmbedding(enc_in, d_model, embed, freq, dropout)
-        self.dec_embedding = DataEmbedding(dec_in, d_model, embed, freq, dropout)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout)
+        self.dec_embedding = DataEmbedding(dec_in, d_model, dropout)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
@@ -385,7 +386,7 @@ class InformerStack(nn.Module):
         
     def forward(self, x_enc, x_mark_enc, x_dec, x_mark_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)
+        enc_out = self.enc_embedding(x_enc)
         enc_out, attns = self.encoder(enc_out, attn_mask=enc_self_mask)
 
         dec_out = self.dec_embedding(x_dec, x_mark_dec)
