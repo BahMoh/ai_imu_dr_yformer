@@ -79,7 +79,7 @@ class MesNet(torch.nn.Module):
                 output_attention="store_true",
                 distil=True,
                 device=torch.device('cuda:0'if torch.cuda.is_available() else "cpu"),
-                )
+                ).double()
             "CNN for measurement covariance"
             self.cov_lin = torch.nn.Sequential(torch.nn.Linear(32, 2),
                                               torch.nn.Tanh(),
