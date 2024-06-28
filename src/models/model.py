@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from utils.masking import TriangularCausalMask, ProbMask
+from utils_yformer.masking import TriangularCausalMask, ProbMask
 from models.encoder import Encoder, EncoderLayer, ConvLayer, EncoderStack,  YformerEncoder
 from models.decoder import Decoder, DecoderLayer, YformerDecoderLayer, YformerDecoder, DeConvLayer, YformerDecoder_skipless, YformerDecoderLayer_skipless
 from models.attn import FullAttention, ProbAttention, AttentionLayer
