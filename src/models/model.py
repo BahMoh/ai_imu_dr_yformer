@@ -225,8 +225,9 @@ class Yformer(nn.Module):
 
         # Encoding
         # TODO: change the embedding so that there is a simple shared embedding for timestamp 
-        self.enc_embedding = DataEmbedding(enc_in, d_model, dropout, max_len=seq_len)
-        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=seq_len)
+        self.enc_embedding = DataEmbedding(enc_in, d_model, max_len=seq_len, dropout=dropout)
+        # self.fut_enc_embedding = DataEmbedding(dec_in, d_model, dropout, max_len=seq_len)
+        self.fut_enc_embedding = DataEmbedding(dec_in, d_model, max_len=seq_len, dropout=dropout)
         # Attention
         Attn = ProbAttention if attn=='prob' else FullAttention
         # Encoder
