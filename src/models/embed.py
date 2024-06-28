@@ -38,6 +38,7 @@ class TokenEmbedding(nn.Module):
         # print("x.permute(0, 2, 1) ", x.permute(0, 2, 1))
         # x = self.tokenConv(x.permute(0, 2, 1)).transpose(1,2)
         x = self.tokenConv(x).transpose(1,2)
+        print("x", x.shape)
         return x
 
 class FixedEmbedding(nn.Module):
