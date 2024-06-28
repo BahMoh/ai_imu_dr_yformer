@@ -77,7 +77,7 @@ class MesNet(torch.nn.Module):
                 freq='h',
                 activation='gelu',
                 output_attention="store_true",
-                distil=,
+                distil=True,
                 devic=torch.device('cuda:0'if torch.cuda.is_available() else "cpu"),
                 )
             "CNN for measurement covariance"
