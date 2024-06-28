@@ -99,7 +99,7 @@ class TimeFeatureEmbedding(nn.Module):
         return self.embed(x)
 
 class DataEmbedding(nn.Module):
-    def __init__(self, c_in, d_model, max_len, dropout=0.1):
+    def __init__(self, c_in, d_model, max_len=6000, dropout=0.1):
         super(DataEmbedding, self).__init__()
 
         self.value_embedding = TokenEmbedding(c_in, d_model)
