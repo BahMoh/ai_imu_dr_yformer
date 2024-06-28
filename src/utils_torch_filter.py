@@ -7,6 +7,9 @@ from termcolor import cprint
 from utils_numpy_filter import NUMPYIEKF
 from utils import prepare_data
 
+from exp.exp_informer import Exp_Informer
+from models.model import Informer, Yformer, Yformer_skipless
+
 class InitProcessCovNet(torch.nn.Module):
 
         def __init__(self):
@@ -44,15 +47,39 @@ class MesNet(torch.nn.Module):
             self.beta_measurement = 3*torch.ones(2).double()
             self.tanh = torch.nn.Tanh()
 
-            self.cov_net = torch.nn.Sequential(torch.nn.Conv1d(6, 32, 5),
-                       torch.nn.ReplicationPad1d(4),
-                       torch.nn.ReLU(),
-                       torch.nn.Dropout(p=0.5),
-                       torch.nn.Conv1d(32, 32, 5, dilation=3),
-                       torch.nn.ReplicationPad1d(4),
-                       torch.nn.ReLU(),
-                       torch.nn.Dropout(p=0.5),
-                       ).double()
+
+            # self.cov_net = torch.nn.Sequential(
+            #            torch.nn.Conv1d(6, 32, 5),
+            #            torch.nn.ReplicationPad1d(4),
+            #            torch.nn.ReLU(),
+            #            torch.nn.Dropout(p=0.5),
+            #            torch.nn.Conv1d(32, 32, 5, dilation=3),
+            #            torch.nn.ReplicationPad1d(4),
+            #            torch.nn.ReLU(),
+            #            torch.nn.Dropout(p=0.5),
+            #            ).double()
+            self.cov_net = Yformer(
+                enc_in=6
+                dec_in=6
+                c_out=32
+                seq_len=48
+                label_len=48
+                pred_len=336
+                factor=3
+                d_model=512
+                n_heads=8
+                e_layers=3
+                d_layers=3
+                d_ff=2048
+                dropout=0.05
+                attn='prob'
+                embed='learned'
+                freq='h'
+                activation='gelu'
+                output_attention="store_true"
+                distil=
+                devic=torch.device('cuda:0'if torch.cuda.is_available() else "cpu")
+                )
             "CNN for measurement covariance"
             self.cov_lin = torch.nn.Sequential(torch.nn.Linear(32, 2),
                                               torch.nn.Tanh(),
