@@ -46,8 +46,6 @@ class MesNet(torch.nn.Module):
             super(MesNet, self).__init__()
             self.beta_measurement = 3*torch.ones(2).double()
             self.tanh = torch.nn.Tanh()
-
-
             # self.cov_net = torch.nn.Sequential(
             #            torch.nn.Conv1d(6, 32, 5),
             #            torch.nn.ReplicationPad1d(4),
@@ -58,6 +56,7 @@ class MesNet(torch.nn.Module):
             #            torch.nn.ReLU(),
             #            torch.nn.Dropout(p=0.5),
             #            ).double()
+            
             self.cov_net = Yformer(
                 enc_in=6,
                 dec_in=6,
