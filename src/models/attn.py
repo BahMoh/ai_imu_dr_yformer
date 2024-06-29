@@ -92,6 +92,11 @@ class ProbAttention(nn.Module):
                    index, :] = torch.matmul(attn, V).type_as(context_in)
         if self.output_attention:
             attns = (torch.ones([B, H, L_V, L_V])/L_V).type_as(attn).to(attn.device)
+            print(B.shape, "B.shape")
+            print(H.shape, "H.shape")
+            print(L_V.shape, "L_V.shape")
+            print(attns.shape, "attns.shape")
+
             attns[torch.arange(B)[:, None, None], torch.arange(H)[None, :, None], index, :] = attn
             return (context_in, attns)
         else:
