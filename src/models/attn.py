@@ -96,6 +96,7 @@ class ProbAttention(nn.Module):
             print(H, "H")
             print(L_V, "L_V")
             print(attns.shape, "attns.shape")
+            print(index, "index")
             print(attns[torch.arange(B)[:, None, None], torch.arange(H)[None, :, None], index, :].shape, "attns[torch.arange(B)[:, None, None], torch.arange(H)[None, :, None], index, :]")
             attns[torch.arange(B)[:, None, None], torch.arange(H)[None, :, None], index, :] = attn
             return (context_in, attns)
