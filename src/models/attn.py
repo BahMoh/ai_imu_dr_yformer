@@ -108,7 +108,7 @@ class ProbAttention(nn.Module):
     def forward(self, queries, keys, values, attn_mask):
         B, L_Q, H, D = queries.shape
         _, L_K, _, _ = keys.shape
-        print(B.shape, "B", L_Q.shape, "L_Q.shape", H.shape, "H.shape", D.shape, "D.shape")
+        print(B, "B", L_Q, "L_Q", H, "H", D, "D")
 
         queries = queries.transpose(2,1)
         keys = keys.transpose(2,1)
