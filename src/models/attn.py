@@ -92,15 +92,15 @@ class ProbAttention(nn.Module):
                    index, :] = torch.matmul(attn, V).type_as(context_in)
         if self.output_attention:
             attns = (torch.ones([B, H, L_V, L_V])/L_V).type_as(attn).to(attn.device)
-            print(B, "B")
-            print(H, "H")
-            print(L_V, "L_V")
-            print(attns.shape, "attns.shape before")
-            print(index.shape, "index")
-            print(attns.shape, "attns.shape")
-            print(attn.shape, "attn.shape")
+            # print(B, "B")
+            # print(H, "H")
+            # print(L_V, "L_V")
+            # print(attns.shape, "attns.shape before")
+            # print(index.shape, "index")
+            # print(attns.shape, "attns.shape")
+            # print(attn.shape, "attn.shape")
             attns[torch.arange(B)[:, None, None], torch.arange(H)[None, :, None], index, :] = attn
-            print(attns.shape, "attns.shape after")
+            # print(attns.shape, "attns.shape after")
             return (context_in, attns)
         else:
             return (context_in, None)
@@ -108,6 +108,7 @@ class ProbAttention(nn.Module):
     def forward(self, queries, keys, values, attn_mask):
         B, L_Q, H, D = queries.shape
         _, L_K, _, _ = keys.shape
+        print(B.shape, "B", L_Q.shape, "L_Q.shape", H.shape, "H.shape", D.shape, "D.shape")
 
         queries = queries.transpose(2,1)
         keys = keys.transpose(2,1)
