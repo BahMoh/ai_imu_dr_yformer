@@ -11,10 +11,25 @@ from models.embed import DataEmbedding
 debug=False
 
 class Informer(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len, 
-                factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512, 
-                dropout=0.0, attn='prob', embed='fixed', freq='h', activation='gelu', 
-                output_attention = False, distil=True,
+    def __init__(self, enc_in,
+                dec_in,
+                c_out,
+                seq_len,
+                label_len,
+                out_len,
+                factor=5,
+                d_model=512,
+                n_heads=8,
+                e_layers=3,
+                d_layers=2,
+                d_ff=512,
+                dropout=0.0,
+                attn='prob',
+                embed='fixed',
+                freq='h',
+                activation='gelu',
+                output_attention = False,
+                distil=True,
                 device=torch.device('cuda:0')):
         super(Informer, self).__init__()
         self.pred_len = out_len
@@ -82,10 +97,26 @@ class Informer(nn.Module):
             return dec_out[:,-self.pred_len:,:] # [B, L, D]
 
 class Yformer_skipless(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len, 
-                factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512, 
-                dropout=0.0, attn='prob', embed='fixed', freq='h', activation='gelu', 
-                output_attention = False, distil=True,
+    def __init__(self,
+                enc_in,
+                dec_in,
+                c_out,
+                seq_len,
+                label_len,
+                out_len,
+                factor=5,
+                d_model=512,
+                n_heads=8,
+                e_layers=3,
+                d_layers=2,
+                d_ff=512,
+                dropout=0.0,
+                attn='prob',
+                embed='fixed',
+                freq='h',
+                activation='gelu',
+                output_attention = False,
+                distil=True,
                 device=torch.device('cuda:0')):
         super(Yformer_skipless, self).__init__()
         self.pred_len = out_len
@@ -196,25 +227,25 @@ class Yformer_skipless(nn.Module):
 
 
 class Yformer(nn.Module):
-    def __init__(self, 
-                enc_in, 
-                dec_in, 
-                c_out, 
-                seq_len, 
-                label_len, 
-                out_len, 
-                factor=5, 
-                d_model=512, 
-                n_heads=8, 
-                e_layers=3, 
-                d_layers=2, 
-                d_ff=512, 
-                dropout=0.0, 
-                attn='prob', 
-                embed='fixed', 
-                freq='h', 
-                activation='gelu', 
-                output_attention = False, 
+    def __init__(self,
+                enc_in,
+                dec_in,
+                c_out,
+                seq_len,
+                label_len,
+                out_len,
+                factor=5,
+                d_model=512,
+                n_heads=8,
+                e_layers=3,
+                d_layers=2,
+                d_ff=512,
+                dropout=0.0,
+                attn='prob',
+                embed='fixed',
+                freq='h',
+                activation='gelu',
+                output_attention = False,
                 distil=True,
                 device=torch.device('cuda:0')):
         super(Yformer, self).__init__()
@@ -326,9 +357,24 @@ class Yformer(nn.Module):
             return dec_out # [B, L, D]
 
 class InformerStack(nn.Module):
-    def __init__(self, enc_in, dec_in, c_out, seq_len, label_len, out_len, 
-                factor=5, d_model=512, n_heads=8, e_layers=3, d_layers=2, d_ff=512, 
-                dropout=0.0, attn='prob', embed='fixed', freq='h', activation='gelu',
+    def __init__(self,
+                enc_in,
+                dec_in,
+                c_out,
+                seq_len,
+                label_len,
+                out_len,
+                factor=5,
+                d_model=512,
+                n_heads=8,
+                e_layers=3,
+                d_layers=2,
+                d_ff=512,
+                dropout=0.0,
+                attn='prob',
+                embed='fixed',
+                freq='h',
+                activation='gelu',
                 output_attention = False, distil=True,
                 device=torch.device('cuda:0')):
         super(InformerStack, self).__init__()
