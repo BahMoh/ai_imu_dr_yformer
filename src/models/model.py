@@ -335,7 +335,7 @@ class Yformer(nn.Module):
         # Encoder
         ################################################## length of data:###############################################
         sequence_length = x_enc.shape[1]
-        print(sequence_length.shape)
+        print(sequence_length)
         enc_out = self.enc_embedding(x_enc)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
         x_list.reverse()
