@@ -335,6 +335,7 @@ class Yformer(nn.Module):
         # Encoder
         ################################################## length of data:###############################################
         sequence_length = x_enc.shape[1]
+        print(sequence_length.shape)
         enc_out = self.enc_embedding(x_enc)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
         x_list.reverse()
@@ -353,6 +354,7 @@ class Yformer(nn.Module):
         # pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(sequence_length // 2):,:]
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(sequence_length - (sequence_length // 2)):,:]
+
         # print(seq_len_dec_out.shape, "seq_len_dec_out")
         # print(pre_len_dec_out.shape, "pre_len_dec_out")
         dec_out = torch.cat((seq_len_dec_out, pre_len_dec_out), dim=1)  # 336 -> 336 + 336
