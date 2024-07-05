@@ -77,7 +77,7 @@ class ProbAttention(nn.Module):
             assert(L_Q == L_V) # requires that L_Q == L_V, i.e. for self-attention only
             contex = V.cumsum(dim=-2)
         return contex
-
+#####################################################################################
     def _update_context(self, context_in, V, scores, index, L_Q, attn_mask):
         B, H, L_V, D = V.shape
 
