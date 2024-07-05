@@ -345,11 +345,12 @@ class Yformer(nn.Module):
 
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
-        print(dec_out.shape, "dec_out")
+        print("attns", attns.shape)
+        # print(dec_out.shape, "dec_out")
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(self.seq_len):,:]
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
-        print(seq_len_dec_out.shape, "seq_len_dec_out")
-        print(pre_len_dec_out.shape, "pre_len_dec_out")
+        # print(seq_len_dec_out.shape, "seq_len_dec_out")
+        # print(pre_len_dec_out.shape, "pre_len_dec_out")
         dec_out = torch.cat((seq_len_dec_out, pre_len_dec_out), dim=1)  # 336 -> 336 + 336
         if self.output_attention:
             return dec_out, attns
