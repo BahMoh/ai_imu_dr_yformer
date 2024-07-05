@@ -62,7 +62,7 @@ class MesNet(torch.nn.Module):
                 dec_in=6,
                 c_out=32,
                 seq_len=6000,
-                label_len=24,
+                label_len=48,
                 out_len=6000, # pred_len
                 factor=3,
                 d_model=256,
