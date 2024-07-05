@@ -218,8 +218,6 @@ class Yformer_skipless(nn.Module):
         # dec_out = self.udecoder(dec_out, enc_out, x_mask=dec_self_mask, cross_mask=dec_enc_mask)
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(self.seq_len):,:]
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
-        print(seq_len_dec_out.shape, "seq_len_dec_out")
-        print(pre_len_dec_out.shape, "pre_len_dec_out")
         dec_out = torch.cat((seq_len_dec_out, pre_len_dec_out), dim=1)  # 336 -> 336 + 336
         if self.output_attention:
             return dec_out, attns
@@ -350,7 +348,8 @@ class Yformer(nn.Module):
 
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(self.seq_len):,:]
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
-
+        print(seq_len_dec_out.shape, "seq_len_dec_out")
+        print(pre_len_dec_out.shape, "pre_len_dec_out")
         dec_out = torch.cat((seq_len_dec_out, pre_len_dec_out), dim=1)  # 336 -> 336 + 336
         if self.output_attention:
             return dec_out, attns
