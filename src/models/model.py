@@ -345,7 +345,7 @@ class Yformer(nn.Module):
 
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
-        print(dec_out, "dec_out")
+        print(dec_out.shape, "dec_out")
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(self.seq_len):,:]
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
         print(seq_len_dec_out.shape, "seq_len_dec_out")
