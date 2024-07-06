@@ -12,7 +12,7 @@ class PositionalEmbedding(nn.Module):
         pe.require_grad = False
 
         position = torch.arange(0, max_len).float().unsqueeze(1)
-        print(position.shape, "position.shape")
+        # print(position.shape, "position.shape")
         div_term = (torch.arange(0, d_model, 2).float() * -(math.log(10000.0) / d_model)).exp()
 
         pe[:, 0::2] = torch.sin(position * div_term)
@@ -111,7 +111,7 @@ class DataEmbedding(nn.Module):
     # def forward(self, x, x_mark):
         # x = self.value_embedding(x) + self.position_embedding(x) + self.temporal_embedding(x_mark)
     def forward(self, x):
-        print("x ", x.shape)
-        print("self.position_embedding(x)", self.position_embedding(x).shape)
+        # print("x ", x.shape)
+        # print("self.position_embedding(x)", self.position_embedding(x).shape)
         x = self.value_embedding(x) + self.position_embedding(x)
         return self.dropout(x)
