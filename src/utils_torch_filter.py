@@ -88,9 +88,9 @@ class MesNet(torch.nn.Module):
 
         def forward(self, u, iekf):
             # print(u.shape, "u.shape")
-            y_cov = self.cov_net(u, u).transpose(0, 2).squeeze()
+            y_cov = self.cov_net(u, u, enc_self_mask=True, dec_self_mask=True, dec_enc_mask=True).transpose(0, 2).squeeze()
             y_cov = y_cov.transpose(-1, -2)
-            print(y_cov.shape)
+            # print(y_cov.shape)
             z_cov = self.cov_lin(y_cov)
             z_cov_net = self.beta_measurement.unsqueeze(0)*z_cov
             print(z_cov_net.shape, "z_cov_net.shape")
