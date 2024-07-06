@@ -37,6 +37,9 @@ class FullAttention(nn.Module):
 
 class ProbAttention(nn.Module):
     def __init__(self, mask_flag=True, factor=5, scale=None, attention_dropout=0.1, output_attention=False):
+# class FullAttention(nn.Module):
+#     def __init__(self, mask_flag=True, factor=5, scale=None, attention_dropout=0.1, output_attention=False):
+        super(FullAttention, self).__init__()
         super(ProbAttention, self).__init__()
         self.factor = factor
         self.scale = scale
