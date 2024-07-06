@@ -331,13 +331,15 @@ class Yformer(nn.Module):
         
     def forward(self, x_enc, x_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
-        print(x_enc.shape, "x_enc.shape")
+        # x_enc.shape                                   [1, 6, 6000]
         # Encoder
         ################################################## length of data:###############################################
         sequence_length = x_enc.shape[2]
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)           # [1, 6000, 512]
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
+        print(enc_out.shape, "enc_out")
+        print(attns.shape, "attns")
         x_list.reverse()
         # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
 
