@@ -337,18 +337,19 @@ class Yformer(nn.Module):
         sequence_length = x_enc.shape[2]
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)
+        print(enc_out.shape)
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
         x_list.reverse()
         # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
 
         # Future Encoder
         fut_enc_out = self.fut_enc_embedding(x_dec)
-        print(len(x_list), "x_list")
-        print(x_list[0].shape, "x_list[0].shape")   # torch.Size([1, 1502, 512]) x_list[0].shape
-        print(x_list[1].shape, "x_list[1].shape")   # torch.Size([1, 3001, 512]) x_list[1].shape
-        print(x_list[2].shape, "x_list[2].shape")   # torch.Size([1, 6000, 512]) x_list[2].shape
-        print(x_dec.shape, "x_dec")                 # torch.Size([1, 6, 6000]) x_dec
-        print(fut_enc_out.shape, "fut_enc_out")     # torch.Size([1, 6000, 512]) fut_enc_out
+        # print(len(x_list), "x_list")
+        # print(x_list[0].shape, "x_list[0].shape")   # torch.Size([1, 1502, 512]) x_list[0].shape
+        # print(x_list[1].shape, "x_list[1].shape")   # torch.Size([1, 3001, 512]) x_list[1].shape
+        # print(x_list[2].shape, "x_list[2].shape")   # torch.Size([1, 6000, 512]) x_list[2].shape
+        # print(x_dec.shape, "x_dec")                 # torch.Size([1, 6, 6000]) x_dec
+        # print(fut_enc_out.shape, "fut_enc_out")     # torch.Size([1, 6000, 512]) fut_enc_out
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
         fut_x_list.reverse()
 
