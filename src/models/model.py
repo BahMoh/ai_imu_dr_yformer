@@ -338,8 +338,8 @@ class Yformer(nn.Module):
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)           # [1, 6000, 512]
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
-        print(enc_out.shape, "enc_out")
-        print(attns.shape, "attns")
+        print(enc_out.shape, "enc_out")               # [1, 1502, 512]
+        print(attns, "attns")
         x_list.reverse()
         # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
 
