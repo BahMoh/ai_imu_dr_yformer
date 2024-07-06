@@ -345,6 +345,8 @@ class Yformer(nn.Module):
         fut_enc_out = self.fut_enc_embedding(x_dec)
         print(len(x_list), "x_list")
         print(x_list[0].shape, "x_list[0].shape")
+        print(x_list[1].shape, "x_list[1].shape")
+        print(x_list[2].shape, "x_list[2].shape")
         print(x_dec.shape, "x_dec")
         print(fut_enc_out.shape, "fut_enc_out")
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
