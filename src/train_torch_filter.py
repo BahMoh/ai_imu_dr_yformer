@@ -8,6 +8,7 @@ from utils_torch_filter import TORCHIEKF
 from utils import prepare_data
 import copy
 
+
 max_loss = 2e1
 max_grad_norm = 1e0
 min_lr = 1e-5
@@ -21,6 +22,7 @@ weight_decay_mesnet = {'cov_net': 1e-8,
     'cov_lin': 1e-8,
     }
 
+scaler = torch.cuda.amp.GradScaler()
 
 def compute_delta_p(Rot, p):
     list_rpe = [[], [], []]  # [idx_0, idx_end, pose_delta_p]
@@ -60,7 +62,7 @@ def train_filter(args, dataset):
     iekf = prepare_filter(args, dataset)
     prepare_loss_data(args, dataset)
     save_iekf(args, iekf)
-    optimizer = set_optimizer(iekf)
+    optimizer = set_optimizer(iekf)    
     start_time = time.time()
 
     for epoch in range(1, args.epochs + 1):
@@ -168,14 +170,16 @@ def train_loop(args, dataset, epoch, iekf, optimizer, seq_dim):
 
     if loss_train == 0: 
         return 
-    loss_train.backward()  # loss_train.cuda().backward()  
+    scaler.scale(loss_train).backward()  # loss_train.cuda().backward()  
     g_norm = torch.nn.utils.clip_grad_norm_(iekf.parameters(), max_grad_norm)
     if np.isnan(g_norm) or g_norm > 3*max_grad_norm:
         cprint("gradient norm: {:.5f}".format(g_norm), 'yellow')
         optimizer.zero_grad()
 
     else:
-        optimizer.step()
+        # optimizer.step()
+        scaler.step(optimizer)
+        scaler.update()
         optimizer.zero_grad()
         cprint("gradient norm: {:.5f}".format(g_norm))
     print('Train Epoch: {:2d} \tLoss: {:.5f}'.format(epoch, loss_train))
@@ -189,15 +193,16 @@ def save_iekf(args, iekf):
 
 
 def mini_batch_step(dataset, dataset_name, iekf, list_rpe, t, ang_gt, p_gt, v_gt, u, N0):
-    iekf.set_Q()
-    measurements_covs = iekf.forward_nets(u)
-    Rot, v, p, b_omega, b_acc, Rot_c_i, t_c_i = iekf.run(t, u,measurements_covs,
-                                                            v_gt, p_gt, t.shape[0],
-                                                            ang_gt[0])
-    delta_p, delta_p_gt = precompute_lost(Rot, p, list_rpe, N0)
-    if delta_p == None:
-        return -1
-    loss = criterion(delta_p, delta_p_gt)
+    with torch.cuda.amp.autocast():
+        iekf.set_Q()
+        measurements_covs = iekf.forward_nets(u)
+        Rot, v, p, b_omega, b_acc, Rot_c_i, t_c_i = iekf.run(t, u,measurements_covs,
+                                                                v_gt, p_gt, t.shape[0],
+                                                                ang_gt[0])
+        delta_p, delta_p_gt = precompute_lost(Rot, p, list_rpe, N0)
+        if delta_p == None:
+            return -1
+        loss = criterion(delta_p, delta_p_gt)
     return loss
 
 

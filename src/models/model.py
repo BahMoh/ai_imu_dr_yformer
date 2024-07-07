@@ -340,12 +340,10 @@ class Yformer(nn.Module):
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
                                                       # enc_out [1, 1502, 512]
                                                       # attns [None, None]
-        print(x_list[0].shape)
-        print(x_list[1].shape)
-        print(x_list[2].shape)
+        # print(x_list[0].shape)                      # torch.Size([1, 6000, 512])
+        # print(x_list[1].shape)                      # torch.Size([1, 3001, 512])
+        # print(x_list[2].shape)                      # torch.Size([1, 1502, 512])
         x_list.reverse()
-        # print("input shape x_dec, x_mark_dec",  x_dec.shape, x_mark_dec.shape)
-
         # Future Encoder
         fut_enc_out = self.fut_enc_embedding(x_dec)
         # print(len(x_list), "x_list")
