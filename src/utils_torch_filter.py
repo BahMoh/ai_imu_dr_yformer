@@ -90,6 +90,7 @@ class MesNet(torch.nn.Module):
             # print(u.shape, "u.shape")
             # y_cov = self.cov_net(u, u, enc_self_mask=True, dec_self_mask=True, dec_enc_mask=True).transpose(0, 2).squeeze()
             y_cov = self.cov_net(u, u).transpose(0, 2).squeeze()
+            print(f"Line 93, utils_torch_filter y_cov.info()  , {y_cov.info()}")
             y_cov = y_cov.transpose(-1, -2)
             # print(y_cov.shape)
             z_cov = self.cov_lin(y_cov)
