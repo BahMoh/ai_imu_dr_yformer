@@ -331,18 +331,18 @@ class Yformer(nn.Module):
         
     def forward(self, x_enc, x_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
-        print(f"model x_enc.info() 2, {x_enc.info()}")
-        print(f"model x_dec.info() 2, {x_dec.info()}")
-        print(f"model enc_self_mask.info() 2, {enc_self_mask.info()}")
-        print(f"model dec_self_mask.info() 2, {dec_self_mask.info()}")
-        print(f"model dec_enc_mask.info() 2, {dec_enc_mask.info()}")
+        print(f"model x_enc.info() 2, {x_enc.element_size() * x_enc.numel()}")
+        print(f"model x_dec.info() 2, {x_dec.element_size() * x_dec.numel()}")
+        print(f"model enc_self_mask.info() 2, {enc_self_mask.element_size() * enc_self_mask.numel()}")
+        print(f"model dec_self_mask.info() 2, {dec_self_mask.element_size() * dec_self_mask.numel()}")
+        print(f"model dec_enc_mask.info() 2, {dec_enc_mask.element_size() * dec_enc_mask.numel()}")
         # x_enc.shape                                   [1, 6, 6000]
         # Encoder
         ################################################## length of data:###############################################
         sequence_length = x_enc.shape[2]
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)           # [1, 6000, 512]
-        print(f"model enc_out.info() 1 , {enc_out.info()}")
+        print(f"model enc_out.info() 1 , {enc_out.element_size() * enc_out.numel()}")
 
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
                                                       # enc_out [1, 1502, 512]
@@ -350,9 +350,9 @@ class Yformer(nn.Module):
         # print(x_list[0].shape)                      # torch.Size([1, 6000, 512])
         # print(x_list[1].shape)                      # torch.Size([1, 3001, 512])
         # print(x_list[2].shape)                      # torch.Size([1, 1502, 512])
-        print(f"model attns.info()  , {attns.info()}")
-        print(f"model x_list.info()  , {x_list.info()}")
-        print(f"model enc_out.info() 2, {enc_out.info()}")
+        print(f"model attns.info()  , {attns.element_size() * attns.numel()}")
+        # print(f"model x_list.info()  , {x_list.element_size() * x_list.numel()}")
+        print(f"model enc_out.info() 2, {enc_out.element_size() * enc_out.numel()}")
 
         x_list.reverse()
         # Future Encoder
@@ -365,25 +365,25 @@ class Yformer(nn.Module):
         # print(fut_enc_out.shape, "fut_enc_out")     # torch.Size([1, 6000, 512]) fut_enc_out
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
         fut_x_list.reverse()
-        print(f"model fut_enc_out, {fut_enc_out.info()}")
-        print(f"model attns.info(), {attns.info()}")
-        print(f"model fut_x_list.info(), {fut_x_list.info()}")
+        print(f"model fut_enc_out, {fut_enc_out.element_size() * fut_enc_out.numel()}")
+        print(f"model attns.info(), {attns.element_size() * attns.numel()}")
+        print(f"model fut_x_list.info(), {fut_x_list.element_size() * fut_x_list.numel()}")
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
-        print(f"model attns.info(), {attns.info()}")
-        print(f"model dec_out.info(), {dec_out.info()}")
+        print(f"model attns.info(), {attns.element_size() * attns.numel()}")
+        print(f"model dec_out.info(), {dec_out.element_size() * dec_out.numel()}")
         # print("attns", attns)
         # print(dec_out.shape, "dec_out")
         # seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(self.seq_len):,:]
         # pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(self.pred_len):,:]
         seq_len_dec_out = self.pred_len_projection(dec_out)[:, -(sequence_length // 2):,:]
-        print(f"model seq_len_dec_out.info(), {seq_len_dec_out.info()}")
+        print(f"model seq_len_dec_out.info(), {seq_len_dec_out.element_size() * seq_len_dec_out.numel()}")
         pre_len_dec_out = self.seq_len_projection(dec_out)[:, -(sequence_length - (sequence_length // 2)):,:]
-        print(f"model pre_len_dec_out.info(), {pre_len_dec_out.info()}")
+        print(f"model pre_len_dec_out.info(), {pre_len_dec_out.element_size() * pre_len_dec_out.numel()}")
         # print(seq_len_dec_out.shape, "seq_len_dec_out")
         # print(pre_len_dec_out.shape, "pre_len_dec_out")
         dec_out = torch.cat((seq_len_dec_out, pre_len_dec_out), dim=1)  # 336 -> 336 + 336
-        print(f"model dec_out.info(), {dec_out.info()}")
+        print(f"model dec_out.info(), {dec_out.element_size() * dec_out.numel()}")
         if self.output_attention:
             return dec_out, attns
         else:
