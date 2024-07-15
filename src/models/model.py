@@ -331,11 +331,11 @@ class Yformer(nn.Module):
         
     def forward(self, x_enc, x_dec, 
                 enc_self_mask=None, dec_self_mask=None, dec_enc_mask=None):
-        print(f"model x_enc.info() 2, {x_enc.element_size() * x_enc.numel()}")
-        print(f"model x_dec.info() 2, {x_dec.element_size() * x_dec.numel()}")
-        print(f"model enc_self_mask.info() 2, {enc_self_mask.element_size() * enc_self_mask.numel()}")
-        print(f"model dec_self_mask.info() 2, {dec_self_mask.element_size() * dec_self_mask.numel()}")
-        print(f"model dec_enc_mask.info() 2, {dec_enc_mask.element_size() * dec_enc_mask.numel()}")
+        print(f"model x_enc.info() 2, shape {x_enc.shape} {x_enc.element_size() * x_enc.numel()}")
+        print(f"model x_dec.info() 2, shape {x_dec.shape} {x_dec.element_size() * x_dec.numel()}")
+        # print(f"model enc_self_mask.info() 2, {enc_self_mask.element_size() * enc_self_mask.numel()}")
+        # print(f"model dec_self_mask.info() 2, {dec_self_mask.element_size() * dec_self_mask.numel()}")
+        # print(f"model dec_enc_mask.info() 2, {dec_enc_mask.element_size() * dec_enc_mask.numel()}")
         # x_enc.shape                                   [1, 6, 6000]
         # Encoder
         ################################################## length of data:###############################################
