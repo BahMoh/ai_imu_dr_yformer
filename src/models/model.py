@@ -342,7 +342,7 @@ class Yformer(nn.Module):
         sequence_length = x_enc.shape[2]
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)           # [1, 6000, 512]
-        print(f"model enc_out.info() 1 , {enc_out.element_size() * enc_out.numel()}")
+        print(f"model enc_out.info() 1 ,shape {enc_out.shape} {enc_out.element_size() * enc_out.numel()}")
 
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
                                                       # enc_out [1, 1502, 512]
@@ -350,7 +350,7 @@ class Yformer(nn.Module):
         # print(x_list[0].shape)                      # torch.Size([1, 6000, 512])
         # print(x_list[1].shape)                      # torch.Size([1, 3001, 512])
         # print(x_list[2].shape)                      # torch.Size([1, 1502, 512])
-        print(f"model attns.info()  , {attns.element_size() * attns.numel()}")
+        # print(f"model attns.info()  , {attns.element_size() * attns.numel()}")
         # print(f"model x_list.info()  , {x_list.element_size() * x_list.numel()}")
         print(f"model enc_out.info() 2, {enc_out.element_size() * enc_out.numel()}")
 
@@ -366,7 +366,7 @@ class Yformer(nn.Module):
         fut_enc_out, attns, fut_x_list = self.future_encoder(fut_enc_out, attn_mask=enc_self_mask)
         fut_x_list.reverse()
         print(f"model fut_enc_out, {fut_enc_out.element_size() * fut_enc_out.numel()}")
-        print(f"model attns.info(), {attns.element_size() * attns.numel()}")
+        # print(f"model attns.info(), {attns.element_size() * attns.numel()}")
         print(f"model fut_x_list.info(), {fut_x_list.element_size() * fut_x_list.numel()}")
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
