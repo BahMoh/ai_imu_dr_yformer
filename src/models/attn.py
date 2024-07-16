@@ -158,6 +158,7 @@ class AttentionLayer(nn.Module):
         B, L, _ = queries.shape
         _, S, _ = keys.shape
         H = self.n_heads
+        print("self.query_projection.dtype", self.query_projection.weight.dtype)
         print("queries.dtype", queries.dtype)
         queries = self.query_projection(queries.half()).view(B, L, H, -1)
         keys = self.key_projection(keys).view(B, S, H, -1)
