@@ -343,7 +343,7 @@ class Yformer(nn.Module):
         # print(sequence_length)
         enc_out = self.enc_embedding(x_enc)           # [1, 6000, 512]
         print(enc_out.dtype, " enc_out.dtype")
-        # enc_out = enc_out.to(torch.float16)
+        enc_out = enc_out.to(torch.float16)
         print(f"model enc_out.info() 1 ,shape {enc_out.shape} {enc_out.element_size() * enc_out.numel()}")
 
         enc_out, attns, x_list = self.encoder(enc_out, attn_mask=enc_self_mask)
