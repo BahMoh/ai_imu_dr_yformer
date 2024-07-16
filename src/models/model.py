@@ -370,7 +370,7 @@ class Yformer(nn.Module):
         fut_x_list.reverse()
         print(f"model fut_enc_out, {fut_enc_out.element_size() * fut_enc_out.numel()}")
         # print(f"model attns.info(), {attns.element_size() * attns.numel()}")
-        print(f"model fut_x_list.info(), {fut_x_list.element_size() * fut_x_list.numel()}")
+        # print(f"model fut_x_list.info(), {fut_x_list.element_size() * fut_x_list.numel()}")
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
         print(f"model attns.info(), {attns.element_size() * attns.numel()}")
