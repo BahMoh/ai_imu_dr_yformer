@@ -373,7 +373,7 @@ class Yformer(nn.Module):
         # print(f"model fut_x_list.info(), {fut_x_list.element_size() * fut_x_list.numel()}")
         # Decoder
         dec_out, attns = self.udecoder(x_list, fut_x_list, attn_mask=dec_self_mask)
-        print(f"model attns.info(), {attns.element_size() * attns.numel()}")
+        # print(f"model attns.info(), {attns.element_size() * attns.numel()}")
         print(f"model dec_out.info(), {dec_out.element_size() * dec_out.numel()}")
         # print("attns", attns)
         # print(dec_out.shape, "dec_out")
