@@ -57,28 +57,6 @@ class MesNet(torch.nn.Module):
             #            torch.nn.Dropout(p=0.5),
             #            ).double()
             
-            # self.cov_net = Yformer(
-            #     enc_in=6,
-            #     dec_in=6,
-            #     c_out=32,
-            #     seq_len=6000,
-            #     label_len=48,
-            #     out_len=0, # pred_len
-            #     factor=3,
-            #     d_model=128,
-            #     n_heads=3,
-            #     e_layers=2,
-            #     d_layers=2,
-            #     d_ff=64,
-            #     dropout=0.05,
-            #     attn='prob',
-            #     embed='learned',
-            #     freq='h',
-            #     activation='gelu',
-            #     output_attention=False,
-            #     distil=True,
-            #     device=torch.device('cuda:0'if torch.cuda.is_available() else "cpu"),
-            #     ).double()
             self.cov_net = Yformer(
                 enc_in=6,
                 dec_in=6,
@@ -100,7 +78,29 @@ class MesNet(torch.nn.Module):
                 output_attention=False,
                 distil=True,
                 device=torch.device('cuda:0'if torch.cuda.is_available() else "cpu"),
-                ).half()
+                ).double()
+            # self.cov_net = Yformer(
+            #     enc_in=6,
+            #     dec_in=6,
+            #     c_out=32,
+            #     seq_len=6000,
+            #     label_len=48,
+            #     out_len=0, # pred_len
+            #     factor=3,
+            #     d_model=128,
+            #     n_heads=3,
+            #     e_layers=2,
+            #     d_layers=2,
+            #     d_ff=64,
+            #     dropout=0.05,
+            #     attn='prob',
+            #     embed='learned',
+            #     freq='h',
+            #     activation='gelu',
+            #     output_attention=False,
+            #     distil=True,
+            #     device=torch.device('cuda:0'if torch.cuda.is_available() else "cpu"),
+            #     ).half()
             "CNN for measurement covariance"
             self.cov_lin = torch.nn.Sequential(torch.nn.Linear(32, 2),
                                               torch.nn.Tanh(),
