@@ -401,7 +401,7 @@ class InformerStack(nn.Module):
                 label_len,
                 out_len,
                 factor=5,
-                d_model=128,
+                d_model=512,
                 n_heads=8,
                 e_layers=3,
                 d_layers=2,
