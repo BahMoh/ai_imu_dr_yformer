@@ -303,9 +303,9 @@ class Yformer(nn.Module):
         )
 
 
-        # Decoder
+        # Decoder attn_layers=None, conv_layers=None, norm_layer=None
         self.udecoder = YformerDecoder(d_model =d_model, n_heads=n_heads, d_ff = d_ff,
-            [
+            attn_layers = [
                 # single attention block in the decoder compared to 2 in the informer
                 YformerDecoderLayer(
                     AttentionLayer(Attn(False, factor, attention_dropout=dropout, output_attention=output_attention), 
@@ -316,12 +316,12 @@ class Yformer(nn.Module):
                     activation=activation
                 ) for l in range(d_layers)
             ],
-            [
+            conv_layers = [
                 DeConvLayer(
                     d_model
                 ) for l in range(d_layers)
             ] if distil else None,
-            norm_layer=torch.nn.LayerNorm(d_model)
+            norm_layer = torch.nn.LayerNorm(d_model)
         )
         # self.end_conv1 = nn.Conv1d(in_channels=label_len+out_len, out_channels=out_len, kernel_size=1, bias=True)
         # self.end_conv2 = nn.Conv1d(in_channels=d_model, out_channels=c_out, kernel_size=1, bias=True)
