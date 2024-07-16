@@ -90,12 +90,10 @@ class MesNet(torch.nn.Module):
             # print(u.shape, "u.shape")
             # y_cov = self.cov_net(u, u, enc_self_mask=True, dec_self_mask=True, dec_enc_mask=True).transpose(0, 2).squeeze()
             y_cov = self.cov_net(u, u).transpose(0, 2).squeeze()
-            print(f"Line 93, utils_torch_filter y_cov.info()  , {y_cov.info()}")
             y_cov = y_cov.transpose(-1, -2)
             # print(y_cov.shape)
             z_cov = self.cov_lin(y_cov)
             z_cov_net = self.beta_measurement.unsqueeze(0)*z_cov
-            print(z_cov_net.shape, "z_cov_net.shape")
             measurements_covs = (iekf.cov0_measurement.unsqueeze(0) * (10**z_cov_net))
             # print(f"u {u.shape}")                                    # u torch.Size([1, 6, 6000])
             # print(f"y_cov {y_cov.shape}")                            # y_cov torch.Size([6000, 32])
