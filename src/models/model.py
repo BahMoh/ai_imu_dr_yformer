@@ -304,7 +304,7 @@ class Yformer(nn.Module):
 
 
         # Decoder
-        self.udecoder = YformerDecoder(
+        self.udecoder = YformerDecoder(d_model =d_model, n_heads=n_heads, d_ff = d_ff,
             [
                 # single attention block in the decoder compared to 2 in the informer
                 YformerDecoderLayer(

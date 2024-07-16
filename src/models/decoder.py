@@ -182,13 +182,47 @@ class YformerDecoder_skipless(nn.Module):
 
 
 
+# class YformerDecoder(nn.Module):
+#     def __init__(self, attn_layers=None, conv_layers=None, norm_layer=None):
+#         super(YformerDecoder, self).__init__()
+#         self.attn_layers = nn.ModuleList(attn_layers) if attn_layers is not None else None
+#         self.conv_layers = nn.ModuleList(conv_layers) if conv_layers is not None else None
+#         self.first_conv = DeConvLayer(c_in=128)
+#         self.first_attn = YformerDecoderLayer(AttentionLayer(FullAttention(False), d_model=512, n_heads=8), d_model =512, d_ff = 2048)
+#         # self.first_attn = YformerDecoderLayer(AttentionLayer(ProbAttention(False), d_model=512, n_heads=8), d_model =512, d_ff = 2048)
+#         self.norm = norm_layer
+
+#     def forward(self, x_list, fut_x_list, attn_mask=None):
+#         # x [B, L, D]
+#         attns = []
+#         x = x_list.pop(0)
+#         fut_x = fut_x_list.pop(0)
+#         x = self.first_attn(x, fut_x, cross_mask=attn_mask)
+#         x = self.first_conv(x) # upsample to connect with other layers from encoder
+#         if self.conv_layers is not None:
+#             if self.attn_layers is not None:
+#                 for cross_x, cross_fut_x, attn_layer, conv_layer in zip(x_list, fut_x_list, self.attn_layers, self.conv_layers):
+#                     cross = torch.cat((cross_x,cross_fut_x), dim=1)
+#                     x = attn_layer(x, cross, cross_mask=attn_mask)
+#                     x = conv_layer(x)
+#             else:
+#                 # pipeline for only convolution layers
+#                 for conv_layer in self.conv_layers:
+#                     x = conv_layer(x)
+#         else:
+#             for attn_layer in self.attn_layers:
+#                 x, attn = attn_layer(x, attn_mask=attn_mask)
+
+#         if self.norm is not None: 
+#             x = self.norm(x)
+#         return x, attns
 class YformerDecoder(nn.Module):
-    def __init__(self, attn_layers=None, conv_layers=None, norm_layer=None):
+    def __init__(self, d_model =512, n_heads=8, d_ff = 2048, attn_layers=None, conv_layers=None, norm_layer=None):
         super(YformerDecoder, self).__init__()
         self.attn_layers = nn.ModuleList(attn_layers) if attn_layers is not None else None
         self.conv_layers = nn.ModuleList(conv_layers) if conv_layers is not None else None
-        self.first_conv = DeConvLayer(c_in=512)
-        self.first_attn = YformerDecoderLayer(AttentionLayer(FullAttention(False), d_model=512, n_heads=8), d_model =512, d_ff = 2048)
+        self.first_conv = DeConvLayer(c_in=128)
+        self.first_attn = YformerDecoderLayer(AttentionLayer(FullAttention(False), d_model, n_heads), d_model, d_ff)
         # self.first_attn = YformerDecoderLayer(AttentionLayer(ProbAttention(False), d_model=512, n_heads=8), d_model =512, d_ff = 2048)
         self.norm = norm_layer
 
