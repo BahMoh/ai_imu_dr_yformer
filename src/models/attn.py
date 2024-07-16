@@ -160,6 +160,9 @@ class AttentionLayer(nn.Module):
         B, L, _ = queries.shape
         _, S, _ = keys.shape
         H = self.n_heads
+        queries = queries.to(torch.float16)
+        keys = keys.to(torch.float16)
+        values = values.to(torch.float16)
         print("self.query_projection.dtype", self.query_projection.weight.dtype)
         print("queries.dtype", queries.dtype)
         queries = self.query_projection(queries).view(B, L, H, -1)
