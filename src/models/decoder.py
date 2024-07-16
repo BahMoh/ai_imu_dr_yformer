@@ -221,7 +221,7 @@ class YformerDecoder(nn.Module):
         super(YformerDecoder, self).__init__()
         self.attn_layers = nn.ModuleList(attn_layers) if attn_layers is not None else None
         self.conv_layers = nn.ModuleList(conv_layers) if conv_layers is not None else None
-        self.first_conv = DeConvLayer(c_in=128)
+        self.first_conv = DeConvLayer(c_in=d_model)
         self.first_attn = YformerDecoderLayer(AttentionLayer(FullAttention(False), d_model, n_heads), d_model, d_ff)
         # self.first_attn = YformerDecoderLayer(AttentionLayer(ProbAttention(False), d_model=512, n_heads=8), d_model =512, d_ff = 2048)
         self.norm = norm_layer
