@@ -147,8 +147,8 @@ class AttentionLayer(nn.Module):
         self.inner_attention = attention
         # print(d_keys, "d_keys")
         self.query_projection = nn.Linear(d_model, d_keys * n_heads)
-        # self.query_projection.weight.data = self.query_projection.weight.data.half()
-        # self.query_projection.bias.data = self.query_projection.bias.data.half()
+        self.query_projection.weight.data = self.query_projection.weight.data.half()
+        self.query_projection.bias.data = self.query_projection.bias.data.half()
         print("self.query_projection.dtype", self.query_projection.weight.dtype)
         # self.query_projection
         self.key_projection = nn.Linear(d_model, d_keys * n_heads)
