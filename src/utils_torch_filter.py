@@ -61,9 +61,9 @@ class MesNet(torch.nn.Module):
                 enc_in=6,
                 dec_in=6,
                 c_out=32,
-                seq_len=2000,
+                seq_len=1000,
                 label_len=48,
-                out_len=0, # pred_len
+                out_len=5000, # pred_len
                 factor=3,
                 d_model=64,
                 n_heads=3,
