@@ -321,7 +321,7 @@ class TORCHIEKF(torch.nn.Module, NUMPYIEKF):
         K = Kt.t().half()
         dx = K.mv(r.view(-1)).half()
 
-        dR, dxi = TORCHIEKF.sen3exp(dx[:9]).half()
+        dR, dxi = TORCHIEKF.sen3exp(dx[:9])
         dv = dxi[:, 0].half()
         dp = dxi[:, 1].half()
         Rot_up = dR.mm(Rot).half()
