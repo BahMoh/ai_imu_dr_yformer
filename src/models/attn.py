@@ -149,7 +149,7 @@ class AttentionLayer(nn.Module):
         self.query_projection = nn.Linear(d_model, d_keys * n_heads)
         self.query_projection.weight.data = self.query_projection.weight.data.half()
         self.query_projection.bias.data = self.query_projection.bias.data.half()
-        print("self.query_projection.dtype", self.query_projection.weight.dtype)
+        # print("self.query_projection.dtype", self.query_projection.weight.dtype)
         # self.query_projection
         self.key_projection = nn.Linear(d_model, d_keys * n_heads)
         self.value_projection = nn.Linear(d_model, d_values * n_heads)
@@ -161,8 +161,8 @@ class AttentionLayer(nn.Module):
         _, S, _ = keys.shape
         H = self.n_heads
         # queries = queries.to(torch.float16)
-        print("self.query_projection.dtype", self.query_projection.weight.dtype)
-        print("queries.dtype", queries.dtype)
+        # print("self.query_projection.dtype", self.query_projection.weight.dtype)
+        # print("queries.dtype", queries.dtype)
         queries = self.query_projection(queries).view(B, L, H, -1)
         keys = self.key_projection(keys).view(B, S, H, -1)
         values = self.value_projection(values).view(B, S, H, -1)
