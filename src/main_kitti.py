@@ -483,7 +483,7 @@ class KITTIArgs():
         # choose what to do
         read_data = 0
         train_filter = 0
-        test_filter = 1
+        test_filter = 0
         results_filter = 1
         dataset_class = KITTIDataset
         parameter_class = KITTIParameters
