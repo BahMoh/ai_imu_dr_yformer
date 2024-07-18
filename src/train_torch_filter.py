@@ -22,7 +22,7 @@ weight_decay_mesnet = {'cov_net': 1e-8,
     'cov_lin': 1e-8,
     }
 
-scaler = torch.cuda.amp.GradScaler()
+# scaler = torch.cuda.amp.GradScaler()
 
 def compute_delta_p(Rot, p):
     list_rpe = [[], [], []]  # [idx_0, idx_end, pose_delta_p]
@@ -170,7 +170,8 @@ def train_loop(args, dataset, epoch, iekf, optimizer, seq_dim):
 
     if loss_train == 0: 
         return 
-    scaler.scale(loss_train).backward()  # loss_train.cuda().backward()  
+    # scaler.scale(loss_train).backward()  # loss_train.cuda().backward()  
+    loss_train.backward()  # loss_train.cuda().backward()  
     g_norm = torch.nn.utils.clip_grad_norm_(iekf.parameters(), max_grad_norm)
     if np.isnan(g_norm) or g_norm > 3*max_grad_norm:
         cprint("gradient norm: {:.5f}".format(g_norm), 'yellow')
@@ -178,8 +179,9 @@ def train_loop(args, dataset, epoch, iekf, optimizer, seq_dim):
 
     else:
         # optimizer.step()
-        scaler.step(optimizer)
-        scaler.update()
+        # scaler.step(optimizer)
+        # scaler.update()
+        optimizer.step()
         optimizer.zero_grad()
         cprint("gradient norm: {:.5f}".format(g_norm))
     print('Train Epoch: {:2d} \tLoss: {:.5f}'.format(epoch, loss_train))
