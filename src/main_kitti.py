@@ -472,7 +472,7 @@ class KITTIArgs():
         path_results = "/kaggle/working/ai_imu_dr_yformer/data"
         path_temp = "/kaggle/working/ai_imu_dr_yformer/temp"
 
-        epochs = 400
+        epochs = 10
         seq_dim = 6000
 
         # training, cross-validation and test dataset
