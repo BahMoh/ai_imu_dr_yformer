@@ -274,7 +274,7 @@ class TORCHIEKF(torch.nn.Module, NUMPYIEKF):
         F_square = F.mm(F).half()
         F_cube = F_square.mm(F).half()
         Phi = (self.IdP + F + 1/2*F_square + 1/6*F_cube).half()
-        P_new = Phi.mm(P + G.mm(Q).mm(G.t())).mm(Phi.t()).half()
+        P_new = Phi.mm(P.half() + G.mm(Q).mm(G.t())).mm(Phi.t()).half()
         return P_new.half()
 
     def update(self, Rot, v, p, b_omega, b_acc, Rot_c_i, t_c_i, P, u, i, measurement_cov):
