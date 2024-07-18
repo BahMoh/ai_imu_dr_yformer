@@ -265,7 +265,8 @@ class Yformer(nn.Module):
             [
                 # uses probSparse attention
                 EncoderLayer(
-                    AttentionLayer(Attn(False, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    # AttentionLayer(Attn(False, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    AttentionLayer(ProbAttention(False, factor, attention_dropout=dropout, output_attention=output_attention), 
                                 d_model, n_heads),
                     d_model,
                     d_ff,
@@ -286,7 +287,8 @@ class Yformer(nn.Module):
             [
                 # uses masked attention
                 EncoderLayer(
-                    AttentionLayer(FullAttention(True, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    # AttentionLayer(FullAttention(True, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    AttentionLayer(ProbAttention(True, factor, attention_dropout=dropout, output_attention=output_attention), 
                                 d_model, n_heads),
                     d_model,
                     d_ff,
@@ -308,7 +310,8 @@ class Yformer(nn.Module):
             attn_layers = [
                 # single attention block in the decoder compared to 2 in the informer
                 YformerDecoderLayer(
-                    AttentionLayer(Attn(False, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    # AttentionLayer(Attn(False, factor, attention_dropout=dropout, output_attention=output_attention), 
+                    AttentionLayer(ProbAttention(False, factor, attention_dropout=dropout, output_attention=output_attention), 
                                 d_model, n_heads),
                     d_model,
                     d_ff,
