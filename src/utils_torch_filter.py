@@ -315,7 +315,8 @@ class TORCHIEKF(torch.nn.Module, NUMPYIEKF):
         # print(f"r {r.shape}")                             # r torch.Size([2])
         # print(f"R {R.shape}")                             # R torch.Size([2, 2])
 
-        Kt = torch.torch.linalg.solve(S.half(), P.half().mm(H.half().t()).t()).half()
+        Kt = torch.torch.linalg.solve(S.double(), P.double().mm(H.double().t()).t()).double()
+        Kt = Kt.half()
         # Kt = torch.linalg.solve(S, H.mm(P).t()).t()
         K = Kt.t().half()
         dx = K.mv(r.view(-1)).half()
